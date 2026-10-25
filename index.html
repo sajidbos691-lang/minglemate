@@ -1,29 +1,328 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="MingleMate — meet people and build connections worldwide.">
+<title>MingleMate — Meet Beyond Borders</title>
+
+<style>
+:root {
+  --ink:#172033;
+  --muted:#65708a;
+  --purple:#6848e8;
+  --paper:#f7f7fc;
+  --white:#fff;
+  --line:#e6e8f1;
+}
+* { box-sizing:border-box }
+html { scroll-behavior:smooth }
+body {
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif
+}
+a { color:inherit;text-decoration:none }
+.wrap { width:min(1120px,92%);margin:auto }
+.nav {
+  min-height:76px;display:flex;align-items:center;
+  justify-content:space-between;gap:20px
+}
+.brand { font-size:1.5rem;font-weight:850;letter-spacing:-.06em }
+.brand b { color:var(--purple) }
+.navlinks { display:flex;gap:24px;color:var(--muted) }
+.btn {
+  border:0;border-radius:999px;background:var(--purple);color:white;
+  font-weight:750;padding:13px 21px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 20px #6848e82a
+}
+.btn:hover { background:#5034c8 }
+.btn:disabled { opacity:.6;cursor:wait }
+.btn.light { background:white;color:var(--purple);box-shadow:none }
+.hero {
+  padding:65px 0 76px;
+  background:radial-gradient(ellipse at 78% 20%,#ded5ff,transparent 34%),
+  radial-gradient(ellipse at 8% 92%,#d4f7eb,transparent 30%),var(--paper)
+}
+.hero-grid {
+  display:grid;grid-template-columns:1.05fr .95fr;
+  align-items:center;gap:52px
+}
+.eyebrow {
+  display:inline-flex;gap:8px;align-items:center;background:white;
+  border:1px solid var(--line);border-radius:999px;
+  padding:8px 13px;color:#5140a5;font-size:.82rem;font-weight:750
+}
+.dot { width:8px;height:8px;border-radius:50%;background:#37bd91 }
+h1 {
+  font-size:clamp(2.8rem,6vw,5rem);line-height:.99;
+  letter-spacing:-.065em;margin:22px 0
+}
+h1 span { color:var(--purple) }
+.lead { font-size:1.1rem;line-height:1.8;color:var(--muted) }
+.actions { display:flex;gap:12px;flex-wrap:wrap;margin:27px 0 20px }
+.micro,.notice { font-size:.83rem;color:var(--muted);line-height:1.7 }
+.visual {
+  min-height:390px;position:relative;display:grid;place-items:center
+}
+.orb {
+  width:min(370px,80vw);aspect-ratio:1;border-radius:45% 55% 62% 38% / 44% 40% 60% 56%;
+  background:linear-gradient(145deg,#d8ccff,#b6f0df);transform:rotate(-8deg)
+}
+.profile {
+  position:absolute;background:white;border:1px solid #ffffffc9;
+  box-shadow:0 20px 55px #33305d20;border-radius:22px;
+  padding:18px;transform:rotate(5deg);width:225px;top:48px;left:0
+}
+.profile.two {
+  top:auto;left:auto;right:-5px;bottom:37px;transform:rotate(-5deg)
+}
+.avatar {
+  width:52px;height:52px;border-radius:18px;
+  background:linear-gradient(135deg,#7355ec,#c7baff);
+  display:grid;place-items:center;color:white;font-size:1.35rem;font-weight:800
+}
+.avatar.green { background:linear-gradient(135deg,#1d9b7a,#b0efcf) }
+.person { display:flex;align-items:center;gap:12px }
+.person strong { display:block }
+.person small { color:var(--muted) }
+.tags { display:flex;gap:6px;flex-wrap:wrap;margin-top:14px }
+.tag { font-size:.75rem;padding:6px 9px;background:#f1efff;color:#5b48bc;border-radius:99px }
+.tag.green { background:#e4f9f1;color:#168363 }
+.floating {
+  position:absolute;background:white;border-radius:14px;padding:12px 15px;
+  box-shadow:0 12px 35px #33305d1c;font-size:.85rem;font-weight:700
+}
+.floating.a { right:0;top:24px }
+.floating.b { left:10px;bottom:14px }
+.section { padding:76px 0 }
+.section.white { background:white }
+.center { text-align:center;max-width:700px;margin:0 auto 38px }
+.kicker {
+  font-size:.8rem;text-transform:uppercase;letter-spacing:.15em;
+  color:var(--purple);font-weight:850
+}
+h2 { font-size:clamp(2rem,4vw,3rem);letter-spacing:-.05em;margin:12px 0 }
+.section p { color:var(--muted);line-height:1.75 }
+.cards,.steps { display:grid;grid-template-columns:repeat(3,1fr);gap:20px }
+.card { background:white;border:1px solid var(--line);border-radius:22px;padding:25px }
+.white .card { background:var(--paper) }
+.ico {
+  width:48px;height:48px;border-radius:15px;background:#eee9ff;
+  color:var(--purple);display:grid;place-items:center;font-size:1.35rem
+}
+.card h3 { margin:18px 0 8px }
+.card p { margin-bottom:0;font-size:.94rem }
+.stepnum { font-size:2rem;font-weight:900;color:#c8bcff;letter-spacing:-.06em }
+.cta {
+  padding:48px;border-radius:28px;background:linear-gradient(120deg,#5b3cda,#8064f0);
+  color:white;display:flex;align-items:center;justify-content:space-between;gap:25px
+}
+.cta h2 { margin:0 0 10px }
+.cta p { color:#eee9ff }
+.cta .btn { flex-shrink:0 }
+footer { padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem }
+.foot { display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap }
+.modal {
+  position:fixed;inset:0;background:#111827a8;display:none;
+  align-items:center;justify-content:center;padding:20px;z-index:10;overflow:auto
+}
+.modal.show { display:flex }
+.dialog {
+  background:white;border-radius:24px;padding:28px;
+  width:min(440px,100%);box-shadow:0 30px 80px #0003;margin:auto
+}
+.dialog h2 { margin-top:0;font-size:1.8rem }
+.dialog label { display:block;font-size:.88rem;font-weight:700;margin:14px 0 6px }
+.dialog input,.dialog select {
+  width:100%;padding:12px;border:1px solid var(--line);
+  border-radius:10px;font:inherit;background:white
+}
+.dialog input:focus,.dialog select:focus { outline:2px solid #c8bcff;border-color:var(--purple) }
+.dialog .btn { width:100%;margin-top:18px }
+.close {
+  float:right;border:0;background:#f1efff;border-radius:50%;
+  width:34px;height:34px;cursor:pointer;font-size:1.2rem
+}
+.feedback { font-size:.88rem;margin-top:12px;line-height:1.6;overflow-wrap:anywhere }
+@media(max-width:760px) {
+  .navlinks { display:none }
+  .hero { padding:42px 0 }
+  .hero-grid { grid-template-columns:1fr;gap:8px }
+  .visual { min-height:340px;order:2 }
+  .profile { left:2%;top:25px }
+  .profile.two { right:0;bottom:20px }
+  .floating.a { right:0 }
+  .cards,.steps { grid-template-columns:1fr }
+  .section { padding:56px 0 }
+  .cta { padding:30px;display:block }
+  .cta .btn { margin-top:15px }
+  h1 { font-size:3.2rem }
+}
+</style>
+</head>
+
+<body>
+<header class="wrap nav">
+  <a class="brand" href="#home">mingle<b>mate</b><span style="color:#8c68ff">.</span></a>
+  <nav class="navlinks">
+    <a href="#how">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#safety">Safety</a>
+  </nav>
+  <button class="btn" data-open>Join MingleMate ↗</button>
+</header>
+
+<main id="home">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> A new community, without borders</div>
+      <h1>Meet beyond<br><span>borders.</span></h1>
+      <p class="lead">Discover people, share your interests, and build meaningful connections across the world — one introduction at a time.</p>
+      <div class="actions">
+        <button class="btn" data-open>Create an account ↗</button>
+        <a class="btn light" href="#how">See how it works ↓</a>
+      </div>
+      <div class="micro">🌍 A global community · Designed for mobile</div>
+    </div>
+    <div class="visual" aria-label="Member profile illustrations">
+      <div class="orb"></div>
+      <div class="profile">
+        <div class="person"><div class="avatar">A</div><div><strong>Alex, 28</strong><small>Lisbon, Portugal</small></div></div>
+        <div class="tags"><span class="tag">Travel</span><span class="tag">Design</span></div>
+      </div>
+      <div class="profile two">
+        <div class="person"><div class="avatar green">M</div><div><strong>Mateo, 31</strong><small>Buenos Aires</small></div></div>
+        <div class="tags"><span class="tag green">Culture</span><span class="tag">Outdoors</span></div>
+      </div>
+      <div class="floating a">✦ Connections worldwide</div>
+      <div class="floating b">🌐 Your world gets bigger</div>
+    </div>
+  </div>
+</section>
+
+<section class="section white" id="features">
+  <div class="wrap">
+    <div class="center">
+      <div class="kicker">A community built around you</div>
+      <h2>Good connections start with a hello.</h2>
+      <p>Find people with shared interests and discover communities from around the world.</p>
+    </div>
+    <div class="cards">
+      <article class="card"><div class="ico">🌍</div><h3>Worldwide discovery</h3><p>Explore communities by country, language, and interests.</p></article>
+      <article class="card"><div class="ico">🧭</div><h3>Profiles with purpose</h3><p>Introduce yourself with your interests, goals, and passions.</p></article>
+      <article class="card"><div class="ico">🛡️</div><h3>Respect comes first</h3><p>Community rules and safety tools are important to us.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="center">
+      <div class="kicker">Simple by design</div>
+      <h2>Your next connection starts here.</h2>
+      <p>Create your account and help shape our growing community.</p>
+    </div>
+    <div class="steps">
+      <article><div class="stepnum">01</div><h3>Create your profile</h3><p>Choose your display name and country.</p></article>
+      <article><div class="stepnum">02</div><h3>Discover your people</h3><p>Meet people with shared interests as features become available.</p></article>
+      <article><div class="stepnum">03</div><h3>Connect respectfully</h3><p>Respect privacy and follow the community rules.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section white" id="safety">
+  <div class="wrap">
+    <div class="cta">
+      <div><h2>Global connections.<br>Grounded in respect.</h2><p>Join the MingleMate community.</p></div>
+      <button class="btn light" data-open>Create an account ↗</button>
+    </div>
+    <p class="notice">Notice: This version supports account registration through Supabase. Member discovery, messaging, verification, and moderation are not implemented yet. Never share sensitive personal information.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="#home">mingle<b>mate</b><span style="color:#8c68ff">.</span></a>
+    <span>© 2026 MingleMate</span>
+    <a href="#safety">Community & safety</a>
+  </div>
+</footer>
+
+<div class="modal" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+  <div class="dialog">
+    <button class="close" id="closeModal" aria-label="Close">×</button>
+    <h2 id="dialogTitle">Create your account</h2>
+    <p>Sign up with your email address.</p>
+
+    <form id="joinForm">
+      <label for="displayName">Display name</label>
+      <input id="displayName" name="displayName" placeholder="Your display name" maxlength="40" required>
+
+      <label for="country">Country</label>
+      <select id="country" name="country" required>
+        <option value="">Choose your country</option>
+        <option>Saudi Arabia</option>
+        <option>United States</option>
+        <option>United Kingdom</option>
+        <option>Pakistan</option>
+        <option>India</option>
+        <option>United Arab Emirates</option>
+        <option>Canada</option>
+        <option>Other</option>
+      </select>
+
+      <label for="email">Email address</label>
+      <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" placeholder="At least 8 characters" minlength="8" autocomplete="new-password" required>
+
+      <button class="btn" id="submitButton" type="submit">Create account ↗</button>
+      <div class="feedback" id="formFeedback" role="status" aria-live="polite"></div>
+    </form>
+
+    <p style="font-size:.85rem">Already registered? Use the sign-in option below.</p>
+    <button class="btn light" id="loginButton" type="button" style="width:100%">Sign in</button>
+    <button class="btn light" id="signOutButton" type="button" style="width:100%;display:none">Sign out</button>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL = 'https://ipcfenbbijhyqsbqwbew.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_aifs2SZF3su2GLyGnanfHA__2JisBbf';
 
-const supabase = window.supabase.createClient(
+const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
 );
 
 const modal = document.getElementById('joinModal');
+const feedback = document.getElementById('formFeedback');
+const form = document.getElementById('joinForm');
+const submitButton = document.getElementById('submitButton');
+const loginButton = document.getElementById('loginButton');
+const signOutButton = document.getElementById('signOutButton');
 
-document.querySelectorAll('[data-open]').forEach(button => {
-  button.addEventListener('click', () => {
-    modal.classList.add('show');
-    document.getElementById('displayName').focus();
-  });
-});
+function showModal() {
+  modal.classList.add('show');
+  feedback.textContent = '';
+  document.getElementById('displayName').focus();
+}
 
 function closeModal() {
   modal.classList.remove('show');
 }
 
-document.getElementById('closeModal')
-  .addEventListener('click', closeModal);
+document.querySelectorAll('[data-open]').forEach(button => {
+  button.addEventListener('click', showModal);
+});
+
+document.getElementById('closeModal').addEventListener('click', closeModal);
 
 modal.addEventListener('click', event => {
   if (event.target === modal) closeModal();
@@ -33,23 +332,29 @@ document.addEventListener('keydown', event => {
   if (event.key === 'Escape') closeModal();
 });
 
-document.getElementById('joinForm').addEventListener('submit', async event => {
-  event.preventDefault();
+function showMessage(message, success = false) {
+  feedback.style.color = success ? '#168363' : '#a13d4c';
+  feedback.textContent = message;
+}
 
-  const feedback = document.getElementById('formFeedback');
-  const button = event.currentTarget.querySelector('button[type="submit"]');
+form.addEventListener('submit', async event => {
+  event.preventDefault();
 
   const displayName = document.getElementById('displayName').value.trim();
   const country = document.getElementById('country').value;
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
 
-  feedback.style.color = '#a13d4c';
-  feedback.textContent = 'Creating your account...';
-  button.disabled = true;
+  if (password.length < 8) {
+    showMessage('Your password must contain at least 8 characters.');
+    return;
+  }
+
+  submitButton.disabled = true;
+  showMessage('Creating your account...', true);
 
   try {
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabaseClient.auth.signUp({
       email,
       password,
       options: {
@@ -62,17 +367,80 @@ document.getElementById('joinForm').addEventListener('submit', async event => {
 
     if (error) throw error;
 
-    feedback.style.color = '#168363';
-    feedback.textContent = data.user && !data.session
-      ? 'Account created! Please check your email to confirm your account.'
-      : 'Account created successfully!';
-
-    event.currentTarget.reset();
-
+    if (data.user && !data.session) {
+      showMessage(
+        'Registration started! Check your email for the confirmation link.',
+        true
+      );
+    } else if (data.user && data.session) {
+      showMessage('Your account has been created and you are signed in!', true);
+      signOutButton.style.display = 'block';
+    } else {
+      showMessage('Please try again.');
+    }
   } catch (error) {
-    feedback.textContent = error.message || 'Signup failed. Please try again.';
+    showMessage(error.message || 'Registration failed. Please try again.');
   } finally {
-    button.disabled = false;
+    submitButton.disabled = false;
+  }
+});
+
+loginButton.addEventListener('click', async () => {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!email || !password) {
+    showMessage('Enter your email and password above, then press Sign in.');
+    document.getElementById('email').focus();
+    return;
+  }
+
+  loginButton.disabled = true;
+  showMessage('Signing in...', true);
+
+  try {
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) throw error;
+
+    showMessage(
+      'Welcome back! You are signed in as ' + data.user.email + '.',
+      true
+    );
+    signOutButton.style.display = 'block';
+  } catch (error) {
+    showMessage(error.message || 'Sign-in failed. Check your details.');
+  } finally {
+    loginButton.disabled = false;
+  }
+});
+
+signOutButton.addEventListener('click', async () => {
+  signOutButton.disabled = true;
+
+  try {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) throw error;
+
+    showMessage('You have signed out successfully.', true);
+    signOutButton.style.display = 'none';
+  } catch (error) {
+    showMessage(error.message || 'Could not sign out.');
+  } finally {
+    signOutButton.disabled = false;
+  }
+});
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  if (session) {
+    signOutButton.style.display = 'block';
+  } else {
+    signOutButton.style.display = 'none';
   }
 });
 </script>
+</body>
+</html>
