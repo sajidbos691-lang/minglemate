@@ -146,6 +146,23 @@ footer { padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font
   width:34px;height:34px;cursor:pointer;font-size:1.2rem
 }
 .feedback { font-size:.88rem;margin-top:12px;line-height:1.6;overflow-wrap:anywhere }
+
+.dashboard-wrap { padding:65px 0;min-height:70vh }
+.dashboard-card {
+  max-width:650px;margin:auto;background:white;
+  border:1px solid var(--line);border-radius:24px;padding:30px;
+  box-shadow:0 15px 45px #33305d10
+}
+.dashboard-card h2 { margin-top:12px }
+.profile-detail {
+  background:var(--paper);border:1px solid var(--line);
+  padding:14px;border-radius:12px;margin:10px 0;overflow-wrap:anywhere
+}
+.profile-detail strong { display:block;font-size:.8rem;color:var(--muted);margin-bottom:5px }
+.profile-detail span { font-weight:650 }
+.dashboard-actions { display:flex;gap:12px;flex-wrap:wrap;margin-top:22px }
+.dashboard-actions .btn { margin:0 }
+
 @media(max-width:760px) {
   .navlinks { display:none }
   .hero { padding:42px 0 }
@@ -159,12 +176,13 @@ footer { padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font
   .cta { padding:30px;display:block }
   .cta .btn { margin-top:15px }
   h1 { font-size:3.2rem }
+  .dashboard-card { padding:22px }
 }
 </style>
 </head>
 
 <body>
-<header class="wrap nav">
+<header class="wrap nav" id="siteHeader">
   <a class="brand" href="#home">mingle<b>mate</b><span style="color:#8c68ff">.</span></a>
   <nav class="navlinks">
     <a href="#how">How it works</a>
@@ -174,8 +192,8 @@ footer { padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font
   <button class="btn" data-open>Join MingleMate ↗</button>
 </header>
 
-<main id="home">
-<section class="hero">
+<main id="mainPage">
+<section class="hero" id="home">
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow"><span class="dot"></span> A new community, without borders</div>
@@ -227,7 +245,7 @@ footer { padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font
     </div>
     <div class="steps">
       <article><div class="stepnum">01</div><h3>Create your profile</h3><p>Choose your display name and country.</p></article>
-      <article><div class="stepnum">02</div><h3>Discover your people</h3><p>Meet people with shared interests as features become available.</p></article>
+      <article><div class="stepnum">02</div><h3>Discover your people</h3><p>Member discovery will be added in a future update.</p></article>
       <article><div class="stepnum">03</div><h3>Connect respectfully</h3><p>Respect privacy and follow the community rules.</p></article>
     </div>
   </div>
@@ -239,12 +257,43 @@ footer { padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font
       <div><h2>Global connections.<br>Grounded in respect.</h2><p>Join the MingleMate community.</p></div>
       <button class="btn light" data-open>Create an account ↗</button>
     </div>
-    <p class="notice">Notice: This version supports account registration through Supabase. Member discovery, messaging, verification, and moderation are not implemented yet. Never share sensitive personal information.</p>
+    <p class="notice">This version supports account registration, sign-in, and a basic profile screen. Member search, messaging, and moderation are not implemented yet. Never share sensitive personal information.</p>
   </div>
 </section>
 </main>
 
-<footer>
+<section id="memberDashboard" class="dashboard-wrap" style="display:none">
+  <div class="wrap">
+    <div class="dashboard-card">
+      <div class="kicker">MINGLEMATE MEMBERS</div>
+      <h2>Welcome to MingleMate!</h2>
+      <p>Your account is signed in successfully.</p>
+
+      <h3>My Profile</h3>
+      <div class="profile-detail">
+        <strong>Display name</strong>
+        <span id="dashboardName">Member</span>
+      </div>
+      <div class="profile-detail">
+        <strong>Email address</strong>
+        <span id="dashboardEmail"></span>
+      </div>
+      <div class="profile-detail">
+        <strong>Country</strong>
+        <span id="dashboardCountry">Not provided</span>
+      </div>
+
+      <div class="dashboard-actions">
+        <button class="btn" id="dashboardSignOut" type="button">Sign out</button>
+        <button class="btn light" id="backToHome" type="button">Back to home</button>
+      </div>
+
+      <p class="notice">Your basic profile information comes from your account registration. Member discovery and messaging will be added separately.</p>
+    </div>
+  </div>
+</section>
+
+<footer id="siteFooter">
   <div class="wrap foot">
     <a class="brand" href="#home">mingle<b>mate</b><span style="color:#8c68ff">.</span></a>
     <span>© 2026 MingleMate</span>
@@ -256,7 +305,7 @@ footer { padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font
   <div class="dialog">
     <button class="close" id="closeModal" aria-label="Close">×</button>
     <h2 id="dialogTitle">Create your account</h2>
-    <p>Sign up with your email address.</p>
+    <p id="dialogDescription">Sign up with your email address.</p>
 
     <form id="joinForm">
       <label for="displayName">Display name</label>
@@ -279,14 +328,15 @@ footer { padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font
       <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
 
       <label for="password">Password</label>
-      <input id="password" name="password" type="password" placeholder="At least 8 characters" minlength="8" autocomplete="new-password" required>
+      <input id="password" name="password" type="password" placeholder="At least 8 characters" minlength="8" autocomplete="current-password" required>
 
       <button class="btn" id="submitButton" type="submit">Create account ↗</button>
       <div class="feedback" id="formFeedback" role="status" aria-live="polite"></div>
     </form>
 
-    <p style="font-size:.85rem">Already registered? Use the sign-in option below.</p>
+    <p style="font-size:.85rem" id="switchText">Already registered? Use the sign-in option below.</p>
     <button class="btn light" id="loginButton" type="button" style="width:100%">Sign in</button>
+    <button class="btn light" id="switchModeButton" type="button" style="width:100%;margin-top:10px">I need to create an account</button>
     <button class="btn light" id="signOutButton" type="button" style="width:100%;display:none">Sign out</button>
   </div>
 </div>
@@ -307,11 +357,59 @@ const form = document.getElementById('joinForm');
 const submitButton = document.getElementById('submitButton');
 const loginButton = document.getElementById('loginButton');
 const signOutButton = document.getElementById('signOutButton');
+const switchModeButton = document.getElementById('switchModeButton');
+const mainPage = document.getElementById('mainPage');
+const dashboard = document.getElementById('memberDashboard');
+const siteHeader = document.getElementById('siteHeader');
+const siteFooter = document.getElementById('siteFooter');
 
-function showModal() {
-  modal.classList.add('show');
+let formMode = 'signup';
+
+function showMessage(message, success = false) {
+  feedback.style.color = success ? '#168363' : '#a13d4c';
+  feedback.textContent = message;
+}
+
+function setMode(mode) {
+  formMode = mode;
   feedback.textContent = '';
-  document.getElementById('displayName').focus();
+
+  const signup = mode === 'signup';
+  document.getElementById('dialogTitle').textContent =
+    signup ? 'Create your account' : 'Sign in to MingleMate';
+
+  document.getElementById('dialogDescription').textContent =
+    signup ? 'Sign up with your email address.' : 'Enter your registered email and password.';
+
+  document.getElementById('displayName').parentElement.style.display = signup ? '' : 'none';
+  document.getElementById('country').parentElement.style.display = signup ? '' : 'none';
+
+  document.getElementById('displayName').required = signup;
+  document.getElementById('country').required = signup;
+
+  document.getElementById('password').autocomplete =
+    signup ? 'new-password' : 'current-password';
+
+  submitButton.style.display = signup ? '' : 'none';
+  loginButton.style.display = signup ? '' : 'none';
+
+  switchModeButton.textContent = signup
+    ? 'I already have an account'
+    : 'Create a new account';
+
+  document.getElementById('switchText').textContent = signup
+    ? 'Already registered? Switch to sign in.'
+    : 'New to MingleMate? Switch to account creation.';
+}
+
+function showModal(mode = 'signup') {
+  setMode(mode);
+  modal.classList.add('show');
+  if (mode === 'signup') {
+    document.getElementById('displayName').focus();
+  } else {
+    document.getElementById('email').focus();
+  }
 }
 
 function closeModal() {
@@ -319,7 +417,7 @@ function closeModal() {
 }
 
 document.querySelectorAll('[data-open]').forEach(button => {
-  button.addEventListener('click', showModal);
+  button.addEventListener('click', () => showModal('signup'));
 });
 
 document.getElementById('closeModal').addEventListener('click', closeModal);
@@ -332,9 +430,37 @@ document.addEventListener('keydown', event => {
   if (event.key === 'Escape') closeModal();
 });
 
-function showMessage(message, success = false) {
-  feedback.style.color = success ? '#168363' : '#a13d4c';
-  feedback.textContent = message;
+switchModeButton.addEventListener('click', () => {
+  setMode(formMode === 'signup' ? 'login' : 'signup');
+});
+
+function renderDashboard(session) {
+  if (session && session.user) {
+    const user = session.user;
+    const metadata = user.user_metadata || {};
+
+    document.getElementById('dashboardName').textContent =
+      metadata.display_name || 'Member';
+
+    document.getElementById('dashboardEmail').textContent =
+      user.email || '';
+
+    document.getElementById('dashboardCountry').textContent =
+      metadata.country || 'Not provided';
+
+    modal.classList.remove('show');
+    mainPage.style.display = 'none';
+    dashboard.style.display = 'block';
+    siteHeader.style.display = 'none';
+    siteFooter.style.display = 'none';
+    signOutButton.style.display = 'block';
+  } else {
+    dashboard.style.display = 'none';
+    mainPage.style.display = '';
+    siteHeader.style.display = '';
+    siteFooter.style.display = '';
+    signOutButton.style.display = 'none';
+  }
 }
 
 form.addEventListener('submit', async event => {
@@ -358,6 +484,7 @@ form.addEventListener('submit', async event => {
       email,
       password,
       options: {
+        emailRedirectTo: window.location.origin + window.location.pathname,
         data: {
           display_name: displayName,
           country: country
@@ -369,12 +496,12 @@ form.addEventListener('submit', async event => {
 
     if (data.user && !data.session) {
       showMessage(
-        'Registration started! Check your email for the confirmation link.',
+        'Registration started! Check your email and confirm your account. Then sign in.',
         true
       );
     } else if (data.user && data.session) {
-      showMessage('Your account has been created and you are signed in!', true);
-      signOutButton.style.display = 'block';
+      showMessage('Account created successfully!', true);
+      renderDashboard(data.session);
     } else {
       showMessage('Please try again.');
     }
@@ -390,7 +517,7 @@ loginButton.addEventListener('click', async () => {
   const password = document.getElementById('password').value;
 
   if (!email || !password) {
-    showMessage('Enter your email and password above, then press Sign in.');
+    showMessage('Enter your email and password, then press Sign in.');
     document.getElementById('email').focus();
     return;
   }
@@ -406,11 +533,12 @@ loginButton.addEventListener('click', async () => {
 
     if (error) throw error;
 
-    showMessage(
-      'Welcome back! You are signed in as ' + data.user.email + '.',
-      true
-    );
-    signOutButton.style.display = 'block';
+    if (!data.session) {
+      showMessage('Sign-in did not create a session. Please try again.');
+      return;
+    }
+
+    renderDashboard(data.session);
   } catch (error) {
     showMessage(error.message || 'Sign-in failed. Check your details.');
   } finally {
@@ -418,28 +546,29 @@ loginButton.addEventListener('click', async () => {
   }
 });
 
-signOutButton.addEventListener('click', async () => {
-  signOutButton.disabled = true;
+async function signOutUser() {
+  const { error } = await supabaseClient.auth.signOut();
 
-  try {
-    const { error } = await supabaseClient.auth.signOut();
-    if (error) throw error;
-
-    showMessage('You have signed out successfully.', true);
-    signOutButton.style.display = 'none';
-  } catch (error) {
+  if (error) {
     showMessage(error.message || 'Could not sign out.');
-  } finally {
-    signOutButton.disabled = false;
+    alert('Sign out failed: ' + error.message);
+  } else {
+    closeModal();
+    renderDashboard(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+}
+
+signOutButton.addEventListener('click', signOutUser);
+document.getElementById('dashboardSignOut').addEventListener('click', signOutUser);
+
+document.getElementById('backToHome').addEventListener('click', () => {
+  renderDashboard(null);
+  showModal('login');
 });
 
 supabaseClient.auth.onAuthStateChange((event, session) => {
-  if (session) {
-    signOutButton.style.display = 'block';
-  } else {
-    signOutButton.style.display = 'none';
-  }
+  renderDashboard(session);
 });
 </script>
 </body>
