@@ -1,575 +1,928 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="MingleMate — meet people and build connections worldwide.">
-<title>MingleMate — Meet Beyond Borders</title>
-
-<style>
-:root {
-  --ink:#172033;
-  --muted:#65708a;
-  --purple:#6848e8;
-  --paper:#f7f7fc;
-  --white:#fff;
-  --line:#e6e8f1;
-}
-* { box-sizing:border-box }
-html { scroll-behavior:smooth }
-body {
-  margin:0;background:var(--paper);color:var(--ink);
-  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif
-}
-a { color:inherit;text-decoration:none }
-.wrap { width:min(1120px,92%);margin:auto }
-.nav {
-  min-height:76px;display:flex;align-items:center;
-  justify-content:space-between;gap:20px
-}
-.brand { font-size:1.5rem;font-weight:850;letter-spacing:-.06em }
-.brand b { color:var(--purple) }
-.navlinks { display:flex;gap:24px;color:var(--muted) }
-.btn {
-  border:0;border-radius:999px;background:var(--purple);color:white;
-  font-weight:750;padding:13px 21px;cursor:pointer;
-  display:inline-flex;align-items:center;justify-content:center;
-  box-shadow:0 8px 20px #6848e82a
-}
-.btn:hover { background:#5034c8 }
-.btn:disabled { opacity:.6;cursor:wait }
-.btn.light { background:white;color:var(--purple);box-shadow:none }
-.hero {
-  padding:65px 0 76px;
-  background:radial-gradient(ellipse at 78% 20%,#ded5ff,transparent 34%),
-  radial-gradient(ellipse at 8% 92%,#d4f7eb,transparent 30%),var(--paper)
-}
-.hero-grid {
-  display:grid;grid-template-columns:1.05fr .95fr;
-  align-items:center;gap:52px
-}
-.eyebrow {
-  display:inline-flex;gap:8px;align-items:center;background:white;
-  border:1px solid var(--line);border-radius:999px;
-  padding:8px 13px;color:#5140a5;font-size:.82rem;font-weight:750
-}
-.dot { width:8px;height:8px;border-radius:50%;background:#37bd91 }
-h1 {
-  font-size:clamp(2.8rem,6vw,5rem);line-height:.99;
-  letter-spacing:-.065em;margin:22px 0
-}
-h1 span { color:var(--purple) }
-.lead { font-size:1.1rem;line-height:1.8;color:var(--muted) }
-.actions { display:flex;gap:12px;flex-wrap:wrap;margin:27px 0 20px }
-.micro,.notice { font-size:.83rem;color:var(--muted);line-height:1.7 }
-.visual {
-  min-height:390px;position:relative;display:grid;place-items:center
-}
-.orb {
-  width:min(370px,80vw);aspect-ratio:1;border-radius:45% 55% 62% 38% / 44% 40% 60% 56%;
-  background:linear-gradient(145deg,#d8ccff,#b6f0df);transform:rotate(-8deg)
-}
-.profile {
-  position:absolute;background:white;border:1px solid #ffffffc9;
-  box-shadow:0 20px 55px #33305d20;border-radius:22px;
-  padding:18px;transform:rotate(5deg);width:225px;top:48px;left:0
-}
-.profile.two {
-  top:auto;left:auto;right:-5px;bottom:37px;transform:rotate(-5deg)
-}
-.avatar {
-  width:52px;height:52px;border-radius:18px;
-  background:linear-gradient(135deg,#7355ec,#c7baff);
-  display:grid;place-items:center;color:white;font-size:1.35rem;font-weight:800
-}
-.avatar.green { background:linear-gradient(135deg,#1d9b7a,#b0efcf) }
-.person { display:flex;align-items:center;gap:12px }
-.person strong { display:block }
-.person small { color:var(--muted) }
-.tags { display:flex;gap:6px;flex-wrap:wrap;margin-top:14px }
-.tag { font-size:.75rem;padding:6px 9px;background:#f1efff;color:#5b48bc;border-radius:99px }
-.tag.green { background:#e4f9f1;color:#168363 }
-.floating {
-  position:absolute;background:white;border-radius:14px;padding:12px 15px;
-  box-shadow:0 12px 35px #33305d1c;font-size:.85rem;font-weight:700
-}
-.floating.a { right:0;top:24px }
-.floating.b { left:10px;bottom:14px }
-.section { padding:76px 0 }
-.section.white { background:white }
-.center { text-align:center;max-width:700px;margin:0 auto 38px }
-.kicker {
-  font-size:.8rem;text-transform:uppercase;letter-spacing:.15em;
-  color:var(--purple);font-weight:850
-}
-h2 { font-size:clamp(2rem,4vw,3rem);letter-spacing:-.05em;margin:12px 0 }
-.section p { color:var(--muted);line-height:1.75 }
-.cards,.steps { display:grid;grid-template-columns:repeat(3,1fr);gap:20px }
-.card { background:white;border:1px solid var(--line);border-radius:22px;padding:25px }
-.white .card { background:var(--paper) }
-.ico {
-  width:48px;height:48px;border-radius:15px;background:#eee9ff;
-  color:var(--purple);display:grid;place-items:center;font-size:1.35rem
-}
-.card h3 { margin:18px 0 8px }
-.card p { margin-bottom:0;font-size:.94rem }
-.stepnum { font-size:2rem;font-weight:900;color:#c8bcff;letter-spacing:-.06em }
-.cta {
-  padding:48px;border-radius:28px;background:linear-gradient(120deg,#5b3cda,#8064f0);
-  color:white;display:flex;align-items:center;justify-content:space-between;gap:25px
-}
-.cta h2 { margin:0 0 10px }
-.cta p { color:#eee9ff }
-.cta .btn { flex-shrink:0 }
-footer { padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem }
-.foot { display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap }
-.modal {
-  position:fixed;inset:0;background:#111827a8;display:none;
-  align-items:center;justify-content:center;padding:20px;z-index:10;overflow:auto
-}
-.modal.show { display:flex }
-.dialog {
-  background:white;border-radius:24px;padding:28px;
-  width:min(440px,100%);box-shadow:0 30px 80px #0003;margin:auto
-}
-.dialog h2 { margin-top:0;font-size:1.8rem }
-.dialog label { display:block;font-size:.88rem;font-weight:700;margin:14px 0 6px }
-.dialog input,.dialog select {
-  width:100%;padding:12px;border:1px solid var(--line);
-  border-radius:10px;font:inherit;background:white
-}
-.dialog input:focus,.dialog select:focus { outline:2px solid #c8bcff;border-color:var(--purple) }
-.dialog .btn { width:100%;margin-top:18px }
-.close {
-  float:right;border:0;background:#f1efff;border-radius:50%;
-  width:34px;height:34px;cursor:pointer;font-size:1.2rem
-}
-.feedback { font-size:.88rem;margin-top:12px;line-height:1.6;overflow-wrap:anywhere }
-
-.dashboard-wrap { padding:65px 0;min-height:70vh }
-.dashboard-card {
-  max-width:650px;margin:auto;background:white;
-  border:1px solid var(--line);border-radius:24px;padding:30px;
-  box-shadow:0 15px 45px #33305d10
-}
-.dashboard-card h2 { margin-top:12px }
-.profile-detail {
-  background:var(--paper);border:1px solid var(--line);
-  padding:14px;border-radius:12px;margin:10px 0;overflow-wrap:anywhere
-}
-.profile-detail strong { display:block;font-size:.8rem;color:var(--muted);margin-bottom:5px }
-.profile-detail span { font-weight:650 }
-.dashboard-actions { display:flex;gap:12px;flex-wrap:wrap;margin-top:22px }
-.dashboard-actions .btn { margin:0 }
-
-@media(max-width:760px) {
-  .navlinks { display:none }
-  .hero { padding:42px 0 }
-  .hero-grid { grid-template-columns:1fr;gap:8px }
-  .visual { min-height:340px;order:2 }
-  .profile { left:2%;top:25px }
-  .profile.two { right:0;bottom:20px }
-  .floating.a { right:0 }
-  .cards,.steps { grid-template-columns:1fr }
-  .section { padding:56px 0 }
-  .cta { padding:30px;display:block }
-  .cta .btn { margin-top:15px }
-  h1 { font-size:3.2rem }
-  .dashboard-card { padding:22px }
-}
-</style>
-</head>
-
-<body>
-<header class="wrap nav" id="siteHeader">
-  <a class="brand" href="#home">mingle<b>mate</b><span style="color:#8c68ff">.</span></a>
-  <nav class="navlinks">
-    <a href="#how">How it works</a>
-    <a href="#features">Features</a>
-    <a href="#safety">Safety</a>
-  </nav>
-  <button class="btn" data-open>Join MingleMate ↗</button>
-</header>
-
-<main id="mainPage">
-<section class="hero" id="home">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow"><span class="dot"></span> A new community, without borders</div>
-      <h1>Meet beyond<br><span>borders.</span></h1>
-      <p class="lead">Discover people, share your interests, and build meaningful connections across the world — one introduction at a time.</p>
-      <div class="actions">
-        <button class="btn" data-open>Create an account ↗</button>
-        <a class="btn light" href="#how">See how it works ↓</a>
-      </div>
-      <div class="micro">🌍 A global community · Designed for mobile</div>
-    </div>
-    <div class="visual" aria-label="Member profile illustrations">
-      <div class="orb"></div>
-      <div class="profile">
-        <div class="person"><div class="avatar">A</div><div><strong>Alex, 28</strong><small>Lisbon, Portugal</small></div></div>
-        <div class="tags"><span class="tag">Travel</span><span class="tag">Design</span></div>
-      </div>
-      <div class="profile two">
-        <div class="person"><div class="avatar green">M</div><div><strong>Mateo, 31</strong><small>Buenos Aires</small></div></div>
-        <div class="tags"><span class="tag green">Culture</span><span class="tag">Outdoors</span></div>
-      </div>
-      <div class="floating a">✦ Connections worldwide</div>
-      <div class="floating b">🌐 Your world gets bigger</div>
-    </div>
-  </div>
-</section>
-
-<section class="section white" id="features">
-  <div class="wrap">
-    <div class="center">
-      <div class="kicker">A community built around you</div>
-      <h2>Good connections start with a hello.</h2>
-      <p>Find people with shared interests and discover communities from around the world.</p>
-    </div>
-    <div class="cards">
-      <article class="card"><div class="ico">🌍</div><h3>Worldwide discovery</h3><p>Explore communities by country, language, and interests.</p></article>
-      <article class="card"><div class="ico">🧭</div><h3>Profiles with purpose</h3><p>Introduce yourself with your interests, goals, and passions.</p></article>
-      <article class="card"><div class="ico">🛡️</div><h3>Respect comes first</h3><p>Community rules and safety tools are important to us.</p></article>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="how">
-  <div class="wrap">
-    <div class="center">
-      <div class="kicker">Simple by design</div>
-      <h2>Your next connection starts here.</h2>
-      <p>Create your account and help shape our growing community.</p>
-    </div>
-    <div class="steps">
-      <article><div class="stepnum">01</div><h3>Create your profile</h3><p>Choose your display name and country.</p></article>
-      <article><div class="stepnum">02</div><h3>Discover your people</h3><p>Member discovery will be added in a future update.</p></article>
-      <article><div class="stepnum">03</div><h3>Connect respectfully</h3><p>Respect privacy and follow the community rules.</p></article>
-    </div>
-  </div>
-</section>
-
-<section class="section white" id="safety">
-  <div class="wrap">
-    <div class="cta">
-      <div><h2>Global connections.<br>Grounded in respect.</h2><p>Join the MingleMate community.</p></div>
-      <button class="btn light" data-open>Create an account ↗</button>
-    </div>
-    <p class="notice">This version supports account registration, sign-in, and a basic profile screen. Member search, messaging, and moderation are not implemented yet. Never share sensitive personal information.</p>
-  </div>
-</section>
-</main>
-
-<section id="memberDashboard" class="dashboard-wrap" style="display:none">
-  <div class="wrap">
-    <div class="dashboard-card">
-      <div class="kicker">MINGLEMATE MEMBERS</div>
-      <h2>Welcome to MingleMate!</h2>
-      <p>Your account is signed in successfully.</p>
-
-      <h3>My Profile</h3>
-      <div class="profile-detail">
-        <strong>Display name</strong>
-        <span id="dashboardName">Member</span>
-      </div>
-      <div class="profile-detail">
-        <strong>Email address</strong>
-        <span id="dashboardEmail"></span>
-      </div>
-      <div class="profile-detail">
-        <strong>Country</strong>
-        <span id="dashboardCountry">Not provided</span>
-      </div>
-
-      <div class="dashboard-actions">
-        <button class="btn" id="dashboardSignOut" type="button">Sign out</button>
-        <button class="btn light" id="backToHome" type="button">Back to home</button>
-      </div>
-
-      <p class="notice">Your basic profile information comes from your account registration. Member discovery and messaging will be added separately.</p>
-    </div>
-  </div>
-</section>
-
-<footer id="siteFooter">
-  <div class="wrap foot">
-    <a class="brand" href="#home">mingle<b>mate</b><span style="color:#8c68ff">.</span></a>
-    <span>© 2026 MingleMate</span>
-    <a href="#safety">Community & safety</a>
-  </div>
-</footer>
-
-<div class="modal" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
-  <div class="dialog">
-    <button class="close" id="closeModal" aria-label="Close">×</button>
-    <h2 id="dialogTitle">Create your account</h2>
-    <p id="dialogDescription">Sign up with your email address.</p>
-
-    <form id="joinForm">
-      <label for="displayName">Display name</label>
-      <input id="displayName" name="displayName" placeholder="Your display name" maxlength="40" required>
-
-      <label for="country">Country</label>
-      <select id="country" name="country" required>
-        <option value="">Choose your country</option>
-        <option>Saudi Arabia</option>
-        <option>United States</option>
-        <option>United Kingdom</option>
-        <option>Pakistan</option>
-        <option>India</option>
-        <option>United Arab Emirates</option>
-        <option>Canada</option>
-        <option>Other</option>
-      </select>
-
-      <label for="email">Email address</label>
-      <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
-
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" placeholder="At least 8 characters" minlength="8" autocomplete="current-password" required>
-
-      <button class="btn" id="submitButton" type="submit">Create account ↗</button>
-      <div class="feedback" id="formFeedback" role="status" aria-live="polite"></div>
-    </form>
-
-    <p style="font-size:.85rem" id="switchText">Already registered? Use the sign-in option below.</p>
-    <button class="btn light" id="loginButton" type="button" style="width:100%">Sign in</button>
-    <button class="btn light" id="switchModeButton" type="button" style="width:100%;margin-top:10px">I need to create an account</button>
-    <button class="btn light" id="signOutButton" type="button" style="width:100%;display:none">Sign out</button>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL = 'https://ipcfenbbijhyqsbqwbew.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_aifs2SZF3su2GLyGnanfHA__2JisBbf';
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-
-const modal = document.getElementById('joinModal');
-const feedback = document.getElementById('formFeedback');
-const form = document.getElementById('joinForm');
-const submitButton = document.getElementById('submitButton');
-const loginButton = document.getElementById('loginButton');
-const signOutButton = document.getElementById('signOutButton');
-const switchModeButton = document.getElementById('switchModeButton');
-const mainPage = document.getElementById('mainPage');
-const dashboard = document.getElementById('memberDashboard');
-const siteHeader = document.getElementById('siteHeader');
-const siteFooter = document.getElementById('siteFooter');
-
-let formMode = 'signup';
-
-function showMessage(message, success = false) {
-  feedback.style.color = success ? '#168363' : '#a13d4c';
-  feedback.textContent = message;
-}
-
-function setMode(mode) {
-  formMode = mode;
-  feedback.textContent = '';
-
-  const signup = mode === 'signup';
-  document.getElementById('dialogTitle').textContent =
-    signup ? 'Create your account' : 'Sign in to MingleMate';
-
-  document.getElementById('dialogDescription').textContent =
-    signup ? 'Sign up with your email address.' : 'Enter your registered email and password.';
-
-  document.getElementById('displayName').parentElement.style.display = signup ? '' : 'none';
-  document.getElementById('country').parentElement.style.display = signup ? '' : 'none';
-
-  document.getElementById('displayName').required = signup;
-  document.getElementById('country').required = signup;
-
-  document.getElementById('password').autocomplete =
-    signup ? 'new-password' : 'current-password';
-
-  submitButton.style.display = signup ? '' : 'none';
-  loginButton.style.display = signup ? '' : 'none';
-
-  switchModeButton.textContent = signup
-    ? 'I already have an account'
-    : 'Create a new account';
-
-  document.getElementById('switchText').textContent = signup
-    ? 'Already registered? Switch to sign in.'
-    : 'New to MingleMate? Switch to account creation.';
-}
-
-function showModal(mode = 'signup') {
-  setMode(mode);
-  modal.classList.add('show');
-  if (mode === 'signup') {
-    document.getElementById('displayName').focus();
-  } else {
-    document.getElementById('email').focus();
-  }
-}
-
-function closeModal() {
-  modal.classList.remove('show');
-}
-
-document.querySelectorAll('[data-open]').forEach(button => {
-  button.addEventListener('click', () => showModal('signup'));
-});
-
-document.getElementById('closeModal').addEventListener('click', closeModal);
-
-modal.addEventListener('click', event => {
-  if (event.target === modal) closeModal();
-});
-
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape') closeModal();
-});
-
-switchModeButton.addEventListener('click', () => {
-  setMode(formMode === 'signup' ? 'login' : 'signup');
-});
-
-function renderDashboard(session) {
-  if (session && session.user) {
-    const user = session.user;
-    const metadata = user.user_metadata || {};
-
-    document.getElementById('dashboardName').textContent =
-      metadata.display_name || 'Member';
-
-    document.getElementById('dashboardEmail').textContent =
-      user.email || '';
-
-    document.getElementById('dashboardCountry').textContent =
-      metadata.country || 'Not provided';
-
-    modal.classList.remove('show');
-    mainPage.style.display = 'none';
-    dashboard.style.display = 'block';
-    siteHeader.style.display = 'none';
-    siteFooter.style.display = 'none';
-    signOutButton.style.display = 'block';
-  } else {
-    dashboard.style.display = 'none';
-    mainPage.style.display = '';
-    siteHeader.style.display = '';
-    siteFooter.style.display = '';
-    signOutButton.style.display = 'none';
-  }
-}
-
-form.addEventListener('submit', async event => {
-  event.preventDefault();
-
-  const displayName = document.getElementById('displayName').value.trim();
-  const country = document.getElementById('country').value;
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
-
-  if (password.length < 8) {
-    showMessage('Your password must contain at least 8 characters.');
-    return;
-  }
-
-  submitButton.disabled = true;
-  showMessage('Creating your account...', true);
-
-  try {
-    const { data, error } = await supabaseClient.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: window.location.origin + window.location.pathname,
-        data: {
-          display_name: displayName,
-          country: country
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MingleMate - Connect & Chat</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client v2 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
         }
-      }
-    });
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
 
-    if (error) throw error;
+    <!-- Global Alert / Banner -->
+    <div id="alertContainer" class="fixed top-4 right-4 z-50 max-w-sm w-full"></div>
 
-    if (data.user && !data.session) {
-      showMessage(
-        'Registration started! Check your email and confirm your account. Then sign in.',
-        true
-      );
-    } else if (data.user && data.session) {
-      showMessage('Account created successfully!', true);
-      renderDashboard(data.session);
-    } else {
-      showMessage('Please try again.');
-    }
-  } catch (error) {
-    showMessage(error.message || 'Registration failed. Please try again.');
-  } finally {
-    submitButton.disabled = false;
-  }
-});
+    <!-- Navigation Header -->
+    <header class="bg-indigo-600 text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="navigateTo('discover')">
+                <i class="fa-solid me-2 fa-heart pulse text-2xl text-pink-300"></i>
+                <span class="font-bold text-xl tracking-wide">MingleMate</span>
+            </div>
 
-loginButton.addEventListener('click', async () => {
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
+            <!-- Logged In Nav Links -->
+            <nav id="authNav" class="hidden md:flex items-center space-x-6">
+                <button onclick="navigateTo('discover')" class="hover:text-pink-200 transition font-medium flex items-center gap-1">
+                    <i class="fa-solid fa-compass"></i> Discover
+                </button>
+                <button onclick="navigateTo('connections')" class="hover:text-pink-200 transition font-medium flex items-center gap-1">
+                    <i class="fa-solid fa-user-group"></i> Connections
+                </button>
+                <button onclick="navigateTo('messages')" class="hover:text-pink-200 transition font-medium flex items-center gap-1 relative">
+                    <i class="fa-solid fa-comments"></i> Messages
+                </button>
+                <button onclick="navigateTo('profile')" class="hover:text-pink-200 transition font-medium flex items-center gap-1">
+                    <i class="fa-solid fa-user"></i> My Profile
+                </button>
+                <button onclick="handleSignOut()" class="bg-indigo-700 hover:bg-indigo-800 px-3 py-1.5 rounded-lg text-sm transition font-medium">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </nav>
 
-  if (!email || !password) {
-    showMessage('Enter your email and password, then press Sign in.');
-    document.getElementById('email').focus();
-    return;
-  }
+            <!-- Public Nav Links -->
+            <div id="publicNav" class="flex items-center space-x-3">
+                <button onclick="showAuthModal('login')" class="px-4 py-2 text-sm font-medium hover:text-pink-200 transition">Sign In</button>
+                <button onclick="showAuthModal('signup')" class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded-lg text-sm font-medium shadow transition">Sign Up</button>
+            </div>
+        </div>
+    </header>
 
-  loginButton.disabled = true;
-  showMessage('Signing in...', true);
+    <!-- Main Content Body -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 pb-20 md:pb-6">
+        
+        <!-- View: Landing / Auth Prompt -->
+        <section id="viewLanding" class="text-center py-16 px-4">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-4">
+                Find Your Perfect <span class="text-indigo-600">Connection</span>
+            </h1>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto mb-8">
+                Join MingleMate to meet like-minded people across the globe. Chat safely, connect authentically, and build meaningful relationships.
+            </p>
+            <div class="flex justify-center gap-4">
+                <button onclick="showAuthModal('signup')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">Get Started</button>
+                <button onclick="showAuthModal('login')" class="bg-white text-indigo-600 border border-indigo-200 hover:bg-slate-50 font-semibold px-6 py-3 rounded-xl shadow transition">Log In</button>
+            </div>
+        </section>
 
-  try {
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-      email,
-      password
-    });
+        <!-- View: Member Discover -->
+        <section id="viewDiscover" class="hidden">
+            <div class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <h2 class="text-2xl font-bold text-slate-800">Discover Members</h2>
+                <div class="w-full md:w-72 relative">
+                    <input type="text" id="searchInput" onkeyup="filterDiscoverMembers()" placeholder="Search by name, country, interest..." class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400"></i>
+                </div>
+            </div>
+            <div id="discoverGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Member cards injected here dynamically -->
+            </div>
+            <div id="discoverEmpty" class="hidden text-center py-12 text-slate-500">
+                <i class="fa-solid fa-users-slash text-4xl mb-3 text-slate-400"></i>
+                <p>No members found matching your search.</p>
+            </div>
+        </section>
 
-    if (error) throw error;
+        <!-- View: Connections & Requests -->
+        <section id="viewConnections" class="hidden">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Your Connections</h2>
+            
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-clock text-amber-500"></i> Pending Requests
+                </h3>
+                <div id="pendingGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Pending requests injected here -->
+                </div>
+                <div id="pendingEmpty" class="text-slate-500 text-sm py-2">No pending connection requests.</div>
+            </div>
 
-    if (!data.session) {
-      showMessage('Sign-in did not create a session. Please try again.');
-      return;
-    }
+            <div>
+                <h3 class="text-lg font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-user-check text-emerald-500"></i> Active Connections
+                </h3>
+                <div id="activeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Active connections injected here -->
+                </div>
+                <div id="activeEmpty" class="text-slate-500 text-sm py-2">No active connections yet. Explore and send requests!</div>
+            </div>
+        </section>
 
-    renderDashboard(data.session);
-  } catch (error) {
-    showMessage(error.message || 'Sign-in failed. Check your details.');
-  } finally {
-    loginButton.disabled = false;
-  }
-});
+        <!-- View: Messages -->
+        <section id="viewMessages" class="hidden h-[calc(100vh-10rem)] min-h-[450px]">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 h-full flex overflow-hidden">
+                <!-- Conversations List -->
+                <div class="w-full md:w-1/3 border-r border-slate-200 flex flex-col h-full bg-slate-50" id="chatListSide">
+                    <div class="p-4 border-b border-slate-200 font-semibold text-slate-700">Conversations</div>
+                    <div id="conversationsList" class="flex-grow overflow-y-auto custom-scrollbar divide-y divide-slate-100">
+                        <!-- Chat connection list injected here -->
+                    </div>
+                </div>
 
-async function signOutUser() {
-  const { error } = await supabaseClient.auth.signOut();
+                <!-- Active Chat Thread -->
+                <div class="hidden md:flex flex-col w-full md:w-2/3 h-full bg-white" id="chatThreadSide">
+                    <div id="chatHeader" class="p-4 border-b border-slate-200 flex justify-between items-center bg-white">
+                        <div class="flex items-center gap-3">
+                            <button onclick="toggleMobileChat(false)" class="md:hidden text-slate-500 hover:text-slate-700">
+                                <i class="fa-solid fa-arrow-left text-lg"></i>
+                            </button>
+                            <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center font-bold text-indigo-600" id="chatAvatar">?</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 leading-tight" id="chatPartnerName">Select a conversation</h4>
+                                <span class="text-xs text-slate-500" id="chatPartnerCountry">--</span>
+                            </div>
+                        </div>
+                    </div>
 
-  if (error) {
-    showMessage(error.message || 'Could not sign out.');
-    alert('Sign out failed: ' + error.message);
-  } else {
-    closeModal();
-    renderDashboard(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-}
+                    <div id="messageHistory" class="flex-grow p-4 overflow-y-auto custom-scrollbar space-y-3 bg-slate-50">
+                        <div class="text-center text-slate-400 my-auto py-12">Select a member to start chatting.</div>
+                    </div>
 
-signOutButton.addEventListener('click', signOutUser);
-document.getElementById('dashboardSignOut').addEventListener('click', signOutUser);
+                    <form id="messageForm" onsubmit="sendMessage(event)" class="p-3 border-t border-slate-200 flex gap-2 bg-white">
+                        <input type="text" id="messageInput" placeholder="Type a message..." class="flex-grow px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" disabled>
+                        <button type="submit" id="sendBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl transition font-medium text-sm disabled:opacity-50" disabled>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
 
-document.getElementById('backToHome').addEventListener('click', () => {
-  renderDashboard(null);
-  showModal('login');
-});
+        <!-- View: Profile Edit -->
+        <section id="viewProfile" class="hidden max-w-2xl mx-auto">
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6">Edit Profile</h2>
+                <form onsubmit="saveProfile(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Display Name</label>
+                        <input type="text" id="profileName" required class="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Country</label>
+                        <input type="text" id="profileCountry" placeholder="e.g. Canada, Saudi Arabia" class="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Interests (comma separated)</label>
+                        <input type="text" id="profileInterests" placeholder="e.g. Coding, Football, Travel, Music" class="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Bio</label>
+                        <textarea id="profileBio" rows="4" placeholder="Tell members about yourself..." class="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+                    </div>
+                    <div class="flex justify-end pt-4">
+                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl shadow transition">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </section>
 
-supabaseClient.auth.onAuthStateChange((event, session) => {
-  renderDashboard(session);
-});
-</script>
+    </main>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <div id="mobileNav" class="hidden md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around py-2 z-40">
+        <button onclick="navigateTo('discover')" class="flex flex-col items-center text-slate-600 hover:text-indigo-600 text-xs">
+            <i class="fa-solid fa-compass text-lg"></i> Discover
+        </button>
+        <button onclick="navigateTo('connections')" class="flex flex-col items-center text-slate-600 hover:text-indigo-600 text-xs">
+            <i class="fa-solid fa-user-group text-lg"></i> Connections
+        </button>
+        <button onclick="navigateTo('messages')" class="flex flex-col items-center text-slate-600 hover:text-indigo-600 text-xs">
+            <i class="fa-solid fa-comments text-lg"></i> Messages
+        </button>
+        <button onclick="navigateTo('profile')" class="flex flex-col items-center text-slate-600 hover:text-indigo-600 text-xs">
+            <i class="fa-solid fa-user text-lg"></i> Profile
+        </button>
+    </div>
+
+    <!-- Auth Modal (Sign In / Sign Up) -->
+    <div id="authModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <h3 id="authModalTitle" class="text-2xl font-bold text-slate-800 mb-4">Sign In</h3>
+            
+            <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                <div id="nameFieldContainer" class="hidden">
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Display Name</label>
+                    <input type="text" id="authName" class="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
+                    <input type="email" id="authEmail" required class="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+                    <input type="password" id="authPassword" required minlength="6" class="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <button type="submit" id="authSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl transition shadow">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Report / Block Modal -->
+    <div id="reportModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl relative">
+            <button onclick="closeReportModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Report / Block Member</h3>
+            <p class="text-sm text-slate-500 mb-4" id="reportTargetName">Target User</p>
+            
+            <form onsubmit="submitReport(event)" class="space-y-4">
+                <input type="hidden" id="reportTargetId">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Reason for reporting</label>
+                    <textarea id="reportReason" required rows="3" placeholder="Describe the inappropriate behavior..." class="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="blockUserCheck" class="rounded text-indigo-600 focus:ring-indigo-500 h-4 w-4">
+                    <label for="blockUserCheck" class="text-sm text-slate-700 font-medium">Also block this member completely</label>
+                </div>
+                <div class="flex gap-2 pt-2">
+                    <button type="button" onclick="closeReportModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-xl transition font-medium">Cancel</button>
+                    <button type="submit" class="w-1/2 bg-red-600 hover:bg-red-700 text-white py-2 rounded-xl transition font-medium">Submit Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        // Supabase Initialization
+        const SUPABASE_URL = 'https://ipcfenbbijhyqsbqwbew.supabase.co';
+        const SUPABASE_ANON_KEY = 'Sb_publishable_aifs2SZF3su2GLyGnanfHA__2JisBbf';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Application State
+        let currentUser = null;
+        let currentUserProfile = null;
+        let authMode = 'login';
+        let membersCache = [];
+        let connectionsCache = [];
+        let activeChatPartnerId = null;
+        let realtimeChannel = null;
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                currentUser = session.user;
+                await fetchOrCreateProfile();
+                updateUIState(true);
+                navigateTo('discover');
+            } else {
+                updateUIState(false);
+                navigateTo('landing');
+            }
+
+            // Auth State Listener
+            supabase.auth.onAuthStateChange(async (event, session) => {
+                if (session) {
+                    currentUser = session.user;
+                    await fetchOrCreateProfile();
+                    updateUIState(true);
+                } else {
+                    currentUser = null;
+                    currentUserProfile = null;
+                    updateUIState(false);
+                    navigateTo('landing');
+                }
+            });
+        });
+
+        // UI State Switcher
+        function updateUIState(isLoggedIn) {
+            document.getElementById('authNav').classList.toggle('hidden', !isLoggedIn);
+            document.getElementById('mobileNav').classList.toggle('hidden', !isLoggedIn);
+            document.getElementById('publicNav').classList.toggle('hidden', isLoggedIn);
+        }
+
+        // Navigation Controller
+        function navigateTo(viewName) {
+            const views = ['landing', 'discover', 'connections', 'messages', 'profile'];
+            views.forEach(v => {
+                const el = document.getElementById(`view${v.charAt(0).toUpperCase() + v.slice(1)}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            if (!currentUser && viewName !== 'landing') {
+                viewName = 'landing';
+            }
+
+            const activeView = document.getElementById(`view${viewName.charAt(0).toUpperCase() + viewName.slice(1)}`);
+            if (activeView) activeView.classList.remove('hidden');
+
+            if (viewName === 'discover') loadDiscoverMembers();
+            if (viewName === 'connections') loadConnections();
+            if (viewName === 'messages') loadConversationsList();
+            if (viewName === 'profile') loadProfileForm();
+        }
+
+        // Alert Toast Handler
+        function showAlert(message, type = 'info') {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            const bgClass = type === 'error' ? 'bg-red-500' : (type === 'success' ? 'bg-emerald-500' : 'bg-indigo-600');
+            alert.className = `${bgClass} text-white px-4 py-3 rounded-xl shadow-lg mb-2 text-sm flex justify-between items-center transition-opacity`;
+            alert.innerHTML = `<span>${message}</span><button onclick="this.parentElement.remove()" class="ml-2 font-bold">&times;</button>`;
+            container.appendChild(alert);
+            setTimeout(() => {
+                alert.remove();
+            }, 4000);
+        }
+
+        // Profile Helper: Fetch or Auto-Create
+        async function fetchOrCreateProfile() {
+            if (!currentUser) return;
+            try {
+                let { data, error } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', currentUser.id)
+                    .single();
+
+                if (error && error.code === 'PGRST116') {
+                    // Profile missing, auto-create fallback
+                    const defaultName = currentUser.user_metadata?.display_name || currentUser.email.split('@')[0];
+                    const { data: newProfile, error: insertError } = await supabase
+                        .from('profiles')
+                        .insert({
+                            id: currentUser.id,
+                            display_name: defaultName,
+                            country: '',
+                            bio: '',
+                            interests: []
+                        })
+                        .select()
+                        .single();
+
+                    if (!insertError) data = newProfile;
+                }
+                currentUserProfile = data;
+            } catch (err) {
+                console.error('Error getting profile:', err);
+            }
+        }
+
+        // Auth Modal Handlers
+        function showAuthModal(mode) {
+            authMode = mode;
+            document.getElementById('authModalTitle').innerText = mode === 'signup' ? 'Create an Account' : 'Sign In';
+            document.getElementById('authSubmitBtn').innerText = mode === 'signup' ? 'Sign Up' : 'Sign In';
+            document.getElementById('nameFieldContainer').classList.toggle('hidden', mode !== 'signup');
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+            const displayName = document.getElementById('authName').value.trim();
+
+            try {
+                if (authMode === 'signup') {
+                    const { data, error } = await supabase.auth.signUp({
+                        email,
+                        password,
+                        options: { data: { display_name: displayName } }
+                    });
+                    if (error) throw error;
+                    
+                    showAlert('Account created! Please check your email for confirmation.', 'success');
+                    closeAuthModal();
+                } else {
+                    const { error } = await supabase.auth.signInWithPassword({ email, password });
+                    if (error) throw error;
+                    
+                    showAlert('Successfully logged in!', 'success');
+                    closeAuthModal();
+                    navigateTo('discover');
+                }
+            } catch (err) {
+                showAlert(err.message, 'error');
+            }
+        }
+
+        async function handleSignOut() {
+            if (realtimeChannel) supabase.removeChannel(realtimeChannel);
+            await supabase.auth.signOut();
+            showAlert('Signed out successfully.', 'info');
+        }
+
+        // View: Discover Members
+        async function loadDiscoverMembers() {
+            if (!currentUser) return;
+            try {
+                // Fetch blocks to filter
+                const { data: blocks } = await supabase
+                    .from('blocks')
+                    .select('blocked_id')
+                    .eq('blocker_id', currentUser.id);
+
+                const blockedIds = (blocks || []).map(b => b.blocked_id);
+
+                const { data: profiles, error } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .neq('id', currentUser.id);
+
+                if (error) throw error;
+
+                membersCache = (profiles || []).filter(p => !blockedIds.includes(p.id));
+                renderDiscoverGrid(membersCache);
+            } catch (err) {
+                showAlert('Failed to load members: ' + err.message, 'error');
+            }
+        }
+
+        function renderDiscoverGrid(members) {
+            const grid = document.getElementById('discoverGrid');
+            const empty = document.getElementById('discoverEmpty');
+            grid.innerHTML = '';
+
+            if (members.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+
+            members.forEach(member => {
+                const interestsText = Array.isArray(member.interests) 
+                    ? member.interests.join(', ') 
+                    : (member.interests || '');
+
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold text-lg">
+                                ${(member.display_name || 'U').charAt(0).toUpperCase()}
+                            </div>
+                            <button onclick="openReportModal('${member.id}', '${escapeHtml(member.display_name)}')" class="text-slate-400 hover:text-red-500 text-xs p-1" title="Report or Block">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </button>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg">${escapeHtml(member.display_name || 'Anonymous')}</h3>
+                        <p class="text-xs text-slate-500 mb-3"><i class="fa-solid fa-location-dot me-1"></i>${escapeHtml(member.country || 'Unknown Location')}</p>
+                        <p class="text-sm text-slate-600 mb-4 line-clamp-2">${escapeHtml(member.bio || 'No bio provided.')}</p>
+                        ${interestsText ? `<div class="mb-4 flex flex-wrap gap-1">${interestsText.split(',').map(i => `<span class="bg-indigo-50 text-indigo-600 text-xs font-medium px-2 py-0.5 rounded-md">${escapeHtml(i.trim())}</span>`).join('')}</div>` : ''}
+                    </div>
+                    <button onclick="sendConnectionRequest('${member.id}')" class="w-full bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-medium py-2 rounded-xl transition text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-user-plus"></i> Connect
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterDiscoverMembers() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = membersCache.filter(m => {
+                const name = (m.display_name || '').toLowerCase();
+                const country = (m.country || '').toLowerCase();
+                const interests = Array.isArray(m.interests) ? m.interests.join(' ').toLowerCase() : (m.interests || '').toLowerCase();
+                return name.includes(query) || country.includes(query) || interests.includes(query);
+            });
+            renderDiscoverGrid(filtered);
+        }
+
+        // Connection Requests Handler
+        async function sendConnectionRequest(receiverId) {
+            try {
+                // Check if connection already exists
+                const { data: existing } = await supabase
+                    .from('connections')
+                    .select('*')
+                    .or(`and(requester_id.eq.${currentUser.id},receiver_id.eq.${receiverId}),and(requester_id.eq.${receiverId},receiver_id.eq.${currentUser.id})`);
+
+                if (existing && existing.length > 0) {
+                    showAlert('A connection or request already exists with this member.', 'info');
+                    return;
+                }
+
+                const { error } = await supabase
+                    .from('connections')
+                    .insert({
+                        requester_id: currentUser.id,
+                        receiver_id: receiverId,
+                        status: 'pending'
+                    });
+
+                if (error) throw error;
+                showAlert('Connection request sent!', 'success');
+            } catch (err) {
+                showAlert('Failed to send request: ' + err.message, 'error');
+            }
+        }
+
+        // View: Load Connections & Requests
+        async function loadConnections() {
+            if (!currentUser) return;
+            try {
+                // Fetch Incoming Pending Requests
+                const { data: pending, error: pendingErr } = await supabase
+                    .from('connections')
+                    .select('id, requester_id, created_at, profiles!connections_requester_id_fkey(id, display_name, country)')
+                    .eq('receiver_id', currentUser.id)
+                    .eq('status', 'pending');
+
+                if (pendingErr) throw pendingErr;
+
+                // Fetch Active Connections
+                const { data: active, error: activeErr } = await supabase
+                    .from('connections')
+                    .select('id, requester_id, receiver_id, status, profiles!connections_requester_id_fkey(id, display_name, country), profiles!connections_receiver_id_fkey(id, display_name, country)')
+                    .or(`requester_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`)
+                    .eq('status', 'accepted');
+
+                if (activeErr) throw activeErr;
+
+                renderConnections(pending || [], active || []);
+            } catch (err) {
+                showAlert('Error loading connections: ' + err.message, 'error');
+            }
+        }
+
+        function renderConnections(pending, active) {
+            // Render Pending Requests
+            const pendingGrid = document.getElementById('pendingGrid');
+            const pendingEmpty = document.getElementById('pendingEmpty');
+            pendingGrid.innerHTML = '';
+
+            if (pending.length === 0) {
+                pendingEmpty.classList.remove('hidden');
+            } else {
+                pendingEmpty.classList.add('hidden');
+                pending.forEach(req => {
+                    const requester = req.profiles;
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-4 rounded-xl border border-amber-200 shadow-sm flex justify-between items-center';
+                    card.innerHTML = `
+                        <div>
+                            <h4 class="font-bold text-slate-800">${escapeHtml(requester?.display_name || 'Member')}</h4>
+                            <p class="text-xs text-slate-500">${escapeHtml(requester?.country || 'Unknown')}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="respondConnection('${req.id}', 'accepted')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium">Accept</button>
+                            <button onclick="respondConnection('${req.id}', 'declined')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium">Decline</button>
+                        </div>
+                    `;
+                    pendingGrid.appendChild(card);
+                });
+            }
+
+            // Render Active Connections
+            const activeGrid = document.getElementById('activeGrid');
+            const activeEmpty = document.getElementById('activeEmpty');
+            activeGrid.innerHTML = '';
+
+            if (active.length === 0) {
+                activeEmpty.classList.remove('hidden');
+            } else {
+                activeEmpty.classList.add('hidden');
+                active.forEach(conn => {
+                    const isRequester = conn.requester_id === currentUser.id;
+                    const partner = isRequester ? conn.profiles_connections_receiver_id_fkey : conn.profiles_connections_requester_id_fkey;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex justify-between items-center';
+                    card.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold">
+                                ${(partner?.display_name || 'U').charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">${escapeHtml(partner?.display_name || 'Member')}</h4>
+                                <p class="text-xs text-slate-500">${escapeHtml(partner?.country || 'Unknown')}</p>
+                            </div>
+                        </div>
+                        <button onclick="openChatWith('${partner?.id}', '${escapeHtml(partner?.display_name)}', '${escapeHtml(partner?.country)}')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1">
+                            <i class="fa-solid fa-comment"></i> Chat
+                        </button>
+                    `;
+                    activeGrid.appendChild(card);
+                });
+            }
+        }
+
+        async function respondConnection(connectionId, status) {
+            try {
+                const { error } = await supabase
+                    .from('connections')
+                    .update({ status })
+                    .eq('id', connectionId);
+
+                if (error) throw error;
+                showAlert(`Request ${status}!`, 'success');
+                loadConnections();
+            } catch (err) {
+                showAlert('Failed to update request: ' + err.message, 'error');
+            }
+        }
+
+        // View: Messages & Realtime Chat
+        async function loadConversationsList() {
+            if (!currentUser) return;
+            try {
+                const { data: active, error } = await supabase
+                    .from('connections')
+                    .select('id, requester_id, receiver_id, profiles!connections_requester_id_fkey(id, display_name, country), profiles!connections_receiver_id_fkey(id, display_name, country)')
+                    .or(`requester_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`)
+                    .eq('status', 'accepted');
+
+                if (error) throw error;
+
+                const listEl = document.getElementById('conversationsList');
+                listEl.innerHTML = '';
+
+                if (!active || active.length === 0) {
+                    listEl.innerHTML = `<div class="p-4 text-xs text-slate-400 text-center">No active connections to message.</div>`;
+                    return;
+                }
+
+                active.forEach(conn => {
+                    const isRequester = conn.requester_id === currentUser.id;
+                    const partner = isRequester ? conn.profiles_connections_receiver_id_fkey : conn.profiles_connections_requester_id_fkey;
+                    if (!partner) return;
+
+                    const item = document.createElement('div');
+                    item.className = 'p-4 hover:bg-slate-100 cursor-pointer transition flex items-center gap-3';
+                    item.onclick = () => openChatWith(partner.id, partner.display_name, partner.country);
+                    item.innerHTML = `
+                        <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold">
+                            ${(partner.display_name || 'U').charAt(0).toUpperCase()}
+                        </div>
+                        <div class="overflow-hidden">
+                            <h5 class="font-semibold text-slate-800 text-sm truncate">${escapeHtml(partner.display_name || 'Member')}</h5>
+                            <p class="text-xs text-slate-400 truncate">${escapeHtml(partner.country || '')}</p>
+                        </div>
+                    `;
+                    listEl.appendChild(item);
+                });
+            } catch (err) {
+                showAlert('Failed to load conversations: ' + err.message, 'error');
+            }
+        }
+
+        async function openChatWith(partnerId, partnerName, partnerCountry) {
+            activeChatPartnerId = partnerId;
+            document.getElementById('chatPartnerName').innerText = partnerName || 'Member';
+            document.getElementById('chatPartnerCountry').innerText = partnerCountry || '';
+            document.getElementById('chatAvatar').innerText = (partnerName || 'U').charAt(0).toUpperCase();
+            document.getElementById('messageInput').disabled = false;
+            document.getElementById('sendBtn').disabled = false;
+
+            // Switch to chat side on mobile
+            toggleMobileChat(true);
+
+            // Fetch Chat History
+            await loadMessages(partnerId);
+
+            // Subscribe to Realtime Messages
+            subscribeToMessages();
+        }
+
+        function toggleMobileChat(showThread) {
+            const listSide = document.getElementById('chatListSide');
+            const threadSide = document.getElementById('chatThreadSide');
+            if (showThread) {
+                listSide.classList.add('hidden');
+                threadSide.classList.remove('hidden');
+                threadSide.classList.add('flex');
+            } else {
+                listSide.classList.remove('hidden');
+                threadSide.classList.add('hidden');
+                threadSide.classList.remove('flex');
+            }
+        }
+
+        async function loadMessages(partnerId) {
+            const history = document.getElementById('messageHistory');
+            history.innerHTML = '<div class="text-center text-slate-400 py-4">Loading messages...</div>';
+
+            try {
+                const { data: messages, error } = await supabase
+                    .from('messages')
+                    .select('*')
+                    .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${partnerId}),and(sender_id.eq.${partnerId},receiver_id.eq.${currentUser.id})`)
+                    .order('created_at', { ascending: true });
+
+                if (error) throw error;
+
+                history.innerHTML = '';
+                if (!messages || messages.length === 0) {
+                    history.innerHTML = '<div class="text-center text-slate-400 py-8 text-sm">No messages yet. Say hello!</div>';
+                    return;
+                }
+
+                messages.forEach(msg => appendMessageBubble(msg));
+                history.scrollTop = history.scrollHeight;
+            } catch (err) {
+                showAlert('Failed to load messages: ' + err.message, 'error');
+            }
+        }
+
+        function appendMessageBubble(msg) {
+            const history = document.getElementById('messageHistory');
+            const isMine = msg.sender_id === currentUser.id;
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex ${isMine ? 'justify-end' : 'justify-start'}`;
+            
+            const bubble = document.createElement('div');
+            bubble.className = `max-w-xs md:max-w-md px-4 py-2 rounded-2xl text-sm ${isMine ? 'bg-indigo-600 text-white rounded-br-none' : 'bg-white text-slate-800 border border-slate-200 rounded-bl-none shadow-sm'}`;
+            bubble.innerText = msg.content;
+
+            wrapper.appendChild(bubble);
+            history.appendChild(wrapper);
+            history.scrollTop = history.scrollHeight;
+        }
+
+        async function sendMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('messageInput');
+            const content = input.value.trim();
+
+            if (!content || !activeChatPartnerId) return;
+
+            input.value = '';
+            try {
+                const { error } = await supabase
+                    .from('messages')
+                    .insert({
+                        sender_id: currentUser.id,
+                        receiver_id: activeChatPartnerId,
+                        content: content
+                    });
+
+                if (error) throw error;
+            } catch (err) {
+                showAlert('Failed to send message: ' + err.message, 'error');
+            }
+        }
+
+        function subscribeToMessages() {
+            if (realtimeChannel) {
+                supabase.removeChannel(realtimeChannel);
+            }
+
+            realtimeChannel = supabase
+                .channel('realtime_messages_channel')
+                .on(
+                    'postgres_changes',
+                    {
+                        event: 'INSERT',
+                        schema: 'public',
+                        table: 'messages'
+                    },
+                    (payload) => {
+                        const newMsg = payload.new;
+                        if (
+                            (newMsg.sender_id === currentUser.id && newMsg.receiver_id === activeChatPartnerId) ||
+                            (newMsg.sender_id === activeChatPartnerId && newMsg.receiver_id === currentUser.id)
+                        ) {
+                            appendMessageBubble(newMsg);
+                        }
+                    }
+                )
+                .subscribe();
+        }
+
+        // View: Profile Form Handling
+        function loadProfileForm() {
+            if (!currentUserProfile) return;
+            document.getElementById('profileName').value = currentUserProfile.display_name || '';
+            document.getElementById('profileCountry').value = currentUserProfile.country || '';
+            
+            const interests = currentUserProfile.interests;
+            document.getElementById('profileInterests').value = Array.isArray(interests) 
+                ? interests.join(', ') 
+                : (interests || '');
+
+            document.getElementById('profileBio').value = currentUserProfile.bio || '';
+        }
+
+        async function saveProfile(e) {
+            e.preventDefault();
+            const displayName = document.getElementById('profileName').value.trim();
+            const country = document.getElementById('profileCountry').value.trim();
+            const rawInterests = document.getElementById('profileInterests').value;
+            const bio = document.getElementById('profileBio').value.trim();
+
+            // Convert text input into clean string array for TEXT[]
+            const interestsArray = rawInterests
+                .split(',')
+                .map(item => item.trim())
+                .filter(item => item.length > 0);
+
+            try {
+                const { data, error } = await supabase
+                    .from('profiles')
+                    .upsert({
+                        id: currentUser.id,
+                        display_name: displayName,
+                        country: country,
+                        interests: interestsArray,
+                        bio: bio,
+                        updated_at: new Date().toISOString()
+                    })
+                    .select()
+                    .single();
+
+                if (error) throw error;
+                currentUserProfile = data;
+                showAlert('Profile saved successfully!', 'success');
+            } catch (err) {
+                showAlert('Failed to update profile: ' + err.message, 'error');
+            }
+        }
+
+        // Moderation: Report & Block Handler
+        function openReportModal(targetId, targetName) {
+            document.getElementById('reportTargetId').value = targetId;
+            document.getElementById('reportTargetName').innerText = `Reporting: ${targetName}`;
+            document.getElementById('reportReason').value = '';
+            document.getElementById('blockUserCheck').checked = false;
+            document.getElementById('reportModal').classList.remove('hidden');
+        }
+
+        function closeReportModal() {
+            document.getElementById('reportModal').classList.add('hidden');
+        }
+
+        async function submitReport(e) {
+            e.preventDefault();
+            const targetId = document.getElementById('reportTargetId').value;
+            const reason = document.getElementById('reportReason').value.trim();
+            const alsoBlock = document.getElementById('blockUserCheck').checked;
+
+            try {
+                // Submit Report
+                const { error: reportErr } = await supabase
+                    .from('reports')
+                    .insert({
+                        reporter_id: currentUser.id,
+                        reported_id: targetId,
+                        reason: reason
+                    });
+
+                if (reportErr) throw reportErr;
+
+                // Optionally Block User
+                if (alsoBlock) {
+                    const { error: blockErr } = await supabase
+                        .from('blocks')
+                        .insert({
+                            blocker_id: currentUser.id,
+                            blocked_id: targetId
+                        });
+
+                    if (blockErr && blockErr.code !== '23505') throw blockErr; // Ignore duplicate blocks
+                }
+
+                showAlert('Report submitted. Thank you for keeping MingleMate safe.', 'success');
+                closeReportModal();
+                loadDiscoverMembers();
+            } catch (err) {
+                showAlert('Failed to submit report: ' + err.message, 'error');
+            }
+        }
+
+        // Security Utility: Prevent HTML XSS Injection
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
 </body>
 </html>
